@@ -1,19 +1,8 @@
 package main;
 
-import java.util.List;
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics2D;
-import java.awt.geom.Rectangle2D;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Objects;
-
-
-import itf.LoadFont;
-import itf.Observer;
-import utils.ReadFile;
+import entities.Entity;
+import entities.GhostShed;
+import entities.PacGum;
 import entities.Pacman;
 import entities.SuperPacGum;
 import entities.Wall;
@@ -25,9 +14,18 @@ import entities.ghosts.Pinky;
 import entities.ghosts.ghostState.EatenMode;
 import entities.ghosts.ghostState.FrightMode;
 import inputs.KeyboardInputs;
-import entities.Entity;
-import entities.GhostShed;
-import entities.PacGum;
+import itf.LoadFont;
+import itf.Observer;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics2D;
+import java.awt.geom.Rectangle2D;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import utils.ReadFile;
 
 public class Game implements Observer{
 
@@ -122,8 +120,8 @@ public class Game implements Observer{
         if (win) {
 
         }
-
         if(!win && !lose) {
+            pacman.input(Main.getGamePanel().k); // Xử lý trạng thái phím
             for (Entity e : entities) {
                 if(!e.isDestroyed()) e.update();
             }

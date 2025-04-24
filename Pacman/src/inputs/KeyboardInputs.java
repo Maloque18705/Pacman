@@ -4,11 +4,9 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.List;
-
-
 import main.GamePanel;
 
-public class KeyboardInputs implements KeyListener{
+public class KeyboardInputs implements KeyListener {
 
     public static List<Key> keyList = new ArrayList<>();
     public Key keyUp = new Key();
@@ -16,11 +14,9 @@ public class KeyboardInputs implements KeyListener{
     public Key keyLeft = new Key();
     public Key keyRight = new Key();
 
-
     public KeyboardInputs(GamePanel g) {
         g.addKeyListener(this);
     }
-
 
     public void toggle(KeyEvent e, boolean pressed) {
         if (e.getKeyCode() == KeyEvent.VK_LEFT) {
@@ -43,9 +39,11 @@ public class KeyboardInputs implements KeyListener{
         public Key() {
             keyList.add(this);
         }
+
         public void keyState() {
             System.out.println(isPressed);
         }
+
         public void toggle(boolean pressed) {
             if (pressed != isPressed) {
                 isPressed = pressed;
@@ -59,15 +57,13 @@ public class KeyboardInputs implements KeyListener{
         throw new UnsupportedOperationException("Unimplemented method 'keyTyped'");
     }
 
-
     @Override
     public void keyPressed(KeyEvent e) {
-        toggle(e, true);
+        toggle(e, true); // Bật trạng thái phím
     }
-
 
     @Override
     public void keyReleased(KeyEvent e) {
-        toggle(e, false);
+        toggle(e, false); // Tắt trạng thái phím
     }
 }

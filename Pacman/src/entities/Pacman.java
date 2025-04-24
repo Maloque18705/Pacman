@@ -1,14 +1,12 @@
 package entities;
 
+import entities.ghosts.Ghosts;
+import inputs.KeyboardInputs;
+import itf.*;
 import java.util.ArrayList;
 import java.util.List;
-
-import itf.*;
 import main.Game;
 import utils.CheckCollision;
-import inputs.KeyboardInputs;
-
-import entities.ghosts.Ghosts;
 
 public class Pacman extends MovingEntity {
 
@@ -22,41 +20,32 @@ public class Pacman extends MovingEntity {
     public void input(KeyboardInputs k) {
         int newXSpeed = 0;
         int newYSpeed = 0;
-        if(!onTheGrid()) return;
-        if(!onGameplayWindow()) return;
 
-        if(k.keyLeft.isPressed && xSpeed >= 0 && !CheckCollision.checkWallCollision(this, -speed, 0)) {
+        if (!onTheGrid())
+            return; // Chỉ xử lý khi Pacman ở trên lưới
+        if (!onGameplayWindow())
+            return; // Chỉ xử lý khi Pacman trong cửa sổ trò chơi
+
+        if (k.keyLeft.isPressed && !CheckCollision.checkWallCollision(this, -speed, 0)) {
             newXSpeed = -speed;
-        } 
-
-        if (k.keyRight.isPressed && xSpeed <= 0  && !CheckCollision.checkWallCollision(this, speed, 0)) {
+            newYSpeed = 0;
+        } else if (k.keyRight.isPressed && !CheckCollision.checkWallCollision(this, speed, 0)) {
             newXSpeed = speed;
-        }
-
-        if (k.keyUp.isPressed && ySpeed >= 0 && !CheckCollision.checkWallCollision(this, -speed, 0)) {
+            newYSpeed = 0;
+        } else if (k.keyUp.isPressed && !CheckCollision.checkWallCollision(this, 0, -speed)) {
+            newXSpeed = 0;
             newYSpeed = -speed;
-        }
-
-        if (k.keyDown.isPressed && ySpeed <= 0 && !CheckCollision.checkWallCollision(this, speed, 0)) {
+        } else if (k.keyDown.isPressed && !CheckCollision.checkWallCollision(this, 0, speed)) {
+            newXSpeed = 0;
             newYSpeed = speed;
         }
 
-        if (newXSpeed == 0  && newYSpeed == 0) return;
-
-        if (Math.abs(newXSpeed) != Math.abs(newYSpeed)) {
-            xSpeed = newXSpeed;
-            ySpeed = newYSpeed;
-        } else {
-            if (xSpeed != 0) {
-                xSpeed = 0;
-                ySpeed = newYSpeed;
-            } else {
-                xSpeed = newXSpeed;
-                ySpeed = 0;
-            }
-        }
+        // Cập nhật tốc độ di chuyển
+        xSpeed = newXSpeed;
+        ySpeed = newYSpeed;
     }
 
+    @Override
     public void update() {
         if (!Game.getFirstInput()) {
             Game.setFirstInput(true);
@@ -68,7 +57,7 @@ public class Pacman extends MovingEntity {
 
         PacGum pg = (PacGum) CheckCollision.checkCollision(this, PacGum.class);
         if (pg != null) {
-            
+
         }
 
         SuperPacGum spg = (SuperPacGum) CheckCollision.checkCollision(this, SuperPacGum.class);
