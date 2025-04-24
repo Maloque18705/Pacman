@@ -62,7 +62,7 @@ public class TaskbarPanel extends JPanel implements Observer{
 
         Rectangle2D r = g.getFontMetrics().getStringBounds("SCORE", g);
         g.drawString("Score: " + score, 10, (height + (int) r.getHeight()) / 2);
-        // repaint();
+        repaint();
     }
 
     @Override

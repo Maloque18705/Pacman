@@ -35,7 +35,7 @@ public class GamePanel extends JPanel implements Runnable {
 
         // THIS SECTION FOR LOADING BACKGROUND
         try {
-            background = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("./res/img/background.png")));
+            background = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("res/img/background.png")));
         } catch (IOException e) {
             throw new RuntimeException(e); 
         }

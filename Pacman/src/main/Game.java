@@ -14,7 +14,10 @@ import java.util.Objects;
 import itf.LoadFont;
 import itf.Observer;
 import utils.Intro;
+import utils.PacGumEatenSound;
+import utils.Pacman_Eliminated;
 import utils.ReadFile;
+import utils.Win;
 import entities.Pacman;
 import entities.SuperPacGum;
 import entities.Wall;
@@ -39,6 +42,9 @@ public class Game implements Observer{
     private static List<Wall> walls;    
     private static Pacman pacman = null;
     // Implement sounds
+    private static PacGumEatenSound pacGumEatenSound;
+    private static Win winSound;
+    private static Pacman_Eliminated pacmanEliminatedSound;
 
     private static boolean firstInput = false;
     public int startTime = 0;
@@ -61,7 +67,9 @@ public class Game implements Observer{
         
         
         // THIS SECTION IS FOR SOUND 
-
+        pacGumEatenSound = new PacGumEatenSound();
+        pacmanEliminatedSound = new Pacman_Eliminated();
+        winSound = new Win();
 
         try {
             map = ReadFile.readMap(Objects.requireNonNull(getClass().getClassLoader().getResource("res/level/level.csv")).toURI());
@@ -127,11 +135,17 @@ public class Game implements Observer{
 
     public void update() {
         if (lose) {
+            pacGumEatenSound.stop();
+            pacmanEliminatedSound.play();
+        }
 
+        if (totalFood ==0 ) {
+            win = true;
         }
 
         if (win) {
-
+            pacGumEatenSound.stop();
+            winSound.play();
         }
 
         if(!win && !lose) {
@@ -220,7 +234,12 @@ public class Game implements Observer{
     public void updateSuperPacGumEaten(SuperPacGum spg) {
         spg.setDestroyed();
         totalFood -= 1;
-
+        try {
+            Thread.sleep(3);
+            pacGumEatenSound.play();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         for (Ghosts ghosts : ghosts) {
             ghosts.getState().superPacGumEaten();
         }
