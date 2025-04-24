@@ -1,74 +1,98 @@
 package entities;
 
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.List;
 
-public class Pacman {
+import itf.*;
+import main.Game;
+import utils.CheckCollision;
+import inputs.KeyboardInputs;
 
-    private int x, y;
-    private int velocityX, velocityY;
-    private int size;
-    private char direction; // 'U', 'D', 'L', 'R'
-    private int speed = 4;
+import entities.ghosts.Ghosts;
 
-    private Image pacmanUpImage;
-    private Image pacmanDownImage;
-    private Image pacmanRightImage;
-    private Image pacmanLeftImage;
+public class Pacman extends MovingEntity {
 
-    Block pacman;
+    private final List<Observer> observerCollection = new ArrayList<>();
+    private int lives = 3;
 
-    public Pacman(int startX, int startY) {
-        this.x = startX;
-        this.y = startY;
-        this.size = size;
-        // pacmanImage
-        this.direction = 'R';
+    public Pacman(int xPos, int yPos) {
+        super(xPos, yPos, 32, 2, "pacman.png", 4, 0.2f);
     }
 
-    public void move(char[][] map) {
-        int nextX = x + velocityX;
-        int nextY = y + velocityY;
+    public void input(KeyboardInputs k) {
+        int newXSpeed = 0;
+        int newYSpeed = 0;
+        if(!onTheGrid()) return;
+        if(!onGameplayWindow()) return;
 
-        if (!isWallCollision(nextX, nextY, map)) {
-            
+        if(k.keyLeft.isPressed && xSpeed >= 0 && !CheckCollision.checkWallCollision(this, -speed, 0)) {
+            newXSpeed = -speed;
+        } 
+
+        if (k.keyRight.isPressed && xSpeed <= 0  && !CheckCollision.checkWallCollision(this, speed, 0)) {
+            newXSpeed = speed;
+        }
+
+        if (k.keyUp.isPressed && ySpeed >= 0 && !CheckCollision.checkWallCollision(this, -speed, 0)) {
+            newYSpeed = -speed;
+        }
+
+        if (k.keyDown.isPressed && ySpeed <= 0 && !CheckCollision.checkWallCollision(this, speed, 0)) {
+            newYSpeed = speed;
+        }
+
+        if (newXSpeed == 0  && newYSpeed == 0) return;
+
+        if (Math.abs(newXSpeed) != Math.abs(newYSpeed)) {
+            xSpeed = newXSpeed;
+            ySpeed = newYSpeed;
+        } else {
+            if (xSpeed != 0) {
+                xSpeed = 0;
+                ySpeed = newYSpeed;
+            } else {
+                xSpeed = newXSpeed;
+                ySpeed = 0;
+            }
         }
     }
 
-    private boolean isWallCollision(int nextX, int nextY, char[][] map) {
+    public void update() {
+        if (!Game.getFirstInput()) {
+            Game.setFirstInput(true);
+        }
 
-    }
+        if (!CheckCollision.checkWallCollision(this, xSpeed, ySpeed)) {
+            updatePos();
+        }
 
-    public void updateDirection(int keyCode) {
-        switch (keyCode) {
-            case KeyEvent.VK_UP:
-                direction = 'U';
-                velocityX = 0;
-                velocityY = -speed; 
-                break;
+        PacGum pg = (PacGum) CheckCollision.checkCollision(this, PacGum.class);
+        if (pg != null) {
             
-            case KeyEvent.VK_DOWN:
-                direction = 'D';
-                velocityX = 0;
-                velocityY = speed;
-                break;
+        }
 
-            case KeyEvent.VK_LEFT:
-                direction = 'L';
-                velocityX = -speed;
-                velocityY = 0;
-                break;
-            case KeyEvent.VK_RIGHT:
-                direction = 'R';
-                velocityX = speed;
-                velocityY = 0;
-                break;
+        SuperPacGum spg = (SuperPacGum) CheckCollision.checkCollision(this, SuperPacGum.class);
+        if (spg != null) {
+
+        }
+
+        Ghosts ghosts = (Ghosts) CheckCollision.checkCollision(this, Ghosts.class);
+        if (ghosts != null) {
+
         }
     }
 
-    public void draw(Graphics g) {
-        g.drawImage();
+    public void setLives() {
+        if (lives > 1) {
+            lives -= 1;
+        }
     }
 
+    public int getLives() {
+        return lives;
+    }
+
+    public void reset() {
+        super.reset();
+    }
 }
