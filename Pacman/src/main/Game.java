@@ -86,6 +86,8 @@ public class Game implements Observer{
                 } else if (map.get(i).get(j).equals("P")) {
                     pacman = new Pacman(j * cellSize, i * cellSize);
 
+                    pacman.registerObserver(this);
+                    pacman.registerObserver(Main.getTaskbarPanel());
                     
                 } else if (map.get(i).get(j).equals("X")) {
                     entities.add(new Wall (j * cellSize, i * cellSize));
@@ -107,6 +109,14 @@ public class Game implements Observer{
         entities.add(clyde);
         entities.add(inky);
         entities.add(pinky);
+
+        for (Entity e: entities) {
+            if (e instanceof Wall) {
+                walls.add((Wall) e);
+            } else if (e instanceof Ghosts) {
+                ghosts.add((Ghosts) e);
+            }
+        }
     }
 
     public void input(KeyboardInputs key) {

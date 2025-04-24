@@ -7,10 +7,11 @@ import itf.*;
 import main.Game;
 import utils.CheckCollision;
 import inputs.KeyboardInputs;
+import itf.Notify;
 
 import entities.ghosts.Ghosts;
 
-public class Pacman extends MovingEntity {
+public class Pacman extends MovingEntity implements Notify {
 
     private final List<Observer> observerCollection = new ArrayList<>();
     private int lives = 3;
@@ -60,6 +61,8 @@ public class Pacman extends MovingEntity {
     public void update() {
         if (!Game.getFirstInput()) {
             Game.setFirstInput(true);
+            Game.waitIn3Sec();
+            Game.setFirstInput(true);
         }
 
         if (!CheckCollision.checkWallCollision(this, xSpeed, ySpeed)) {
@@ -68,17 +71,48 @@ public class Pacman extends MovingEntity {
 
         PacGum pg = (PacGum) CheckCollision.checkCollision(this, PacGum.class);
         if (pg != null) {
-            
+            notifyObserverPacGumEaten(pg);
         }
 
         SuperPacGum spg = (SuperPacGum) CheckCollision.checkCollision(this, SuperPacGum.class);
         if (spg != null) {
-
+            notifyObserverSuperPacGumEaten(spg);
         }
 
         Ghosts ghosts = (Ghosts) CheckCollision.checkCollision(this, Ghosts.class);
         if (ghosts != null) {
+            notifyObserverGhostsCollision(ghosts);
+        }
+    }
 
+    @Override 
+    public void registerObserver(Observer observer) {
+        observerCollection.add(observer);
+    }
+
+    @Override
+    public void removeObserver(Observer observer) {
+        observerCollection.remove(observer);
+    }
+
+    @Override 
+    public void notifyObserverPacGumEaten(PacGum pg) {
+        for (Observer o : observerCollection) {
+            o.updatePacGumEaten(pg);
+        }
+    }
+
+    @Override
+    public void notifyObserverSuperPacGumEaten(SuperPacGum spg) {
+        for (Observer o : observerCollection) {
+            o.updateSuperPacGumEaten(spg);
+        } 
+    }
+
+    @Override 
+    public void notifyObserverGhostsCollision(Ghosts ghosts) {
+        for (Observer o : observerCollection) {
+            o.updateGhostCollision(ghosts);
         }
     }
 

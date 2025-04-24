@@ -1,58 +1,55 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.*;
-import java.io.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.net.URL;
 import javax.imageio.ImageIO;
+import java.util.Objects;
 
 public class Testing extends JFrame {
-
-    private BufferedImage image;
-    private Font customFont;
+    private BufferedImage sprite;
+    private final String spriteName = "blinky.png";
 
     public Testing() {
-        setTitle("Font & Image Test");
-        setSize(600, 400);
+        setTitle("Test Load MovingEntity Image");
+        setSize(300, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null); // căn giữa cửa sổ
+        setLocationRelativeTo(null);
 
+        // —— thử load như MovingEntity ——
         try {
-
-            // ✅ Tải font từ file .ttf
-            System.out.println("Font absolute path: " + new File("res/font/Emulogic-zrEw.ttf").getAbsolutePath());
-            InputStream fontStream = getClass().getClassLoader().getResourceAsStream("res/font/Emulogic-zrEw.ttf");
-            customFont = Font.createFont(Font.TRUETYPE_FONT, fontStream);
-
-            // Đăng ký font với hệ thống đồ họa
-            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-            ge.registerFont(customFont);
-
-        } catch (IOException | FontFormatException e) {
+            String path = "res/img/" + spriteName;
+            URL url = getClass().getClassLoader().getResource(path);
+            System.out.println("Trying to load resource at: " + path);
+            System.out.println("Resolved URL: " + url);
+            sprite = ImageIO.read(Objects.requireNonNull(url));
+            System.out.println("Loaded sprite size: " + sprite.getWidth() + "×" + sprite.getHeight());
+        } catch (IOException | NullPointerException e) {
             e.printStackTrace();
+            sprite = null;
         }
+
+        // đặt panel vẽ
+        add(new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                if (sprite != null) {
+                    // vẽ ở giữa panel
+                    int x = (getWidth() - sprite.getWidth()) / 2;
+                    int y = (getHeight() - sprite.getHeight()) / 2;
+                    g.drawImage(sprite, x, y, this);
+                } else {
+                    g.setColor(Color.RED);
+                    g.drawString("Load sprite failed!", 20, 20);
+                }
+            }
+        });
 
         setVisible(true);
     }
 
-    @Override
-    public void paint(Graphics g) {
-        super.paint(g);
-
-        // Vẽ ảnh
-        if (image != null) {
-            g.drawImage(image, 50, 50, this);
-        }
-
-        // Vẽ văn bản với font
-        if (customFont != null) {
-            g.setFont(customFont);
-            g.setColor(Color.YELLOW);
-            g.drawString("Hello Pac-Man!", 50, 350);
-        } else {
-            g.drawString("Không load được font!", 50, 350);
-        }
-    }
-
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new Testing());
+        SwingUtilities.invokeLater(Testing::new);
     }
 }

@@ -23,7 +23,7 @@ public abstract class Ghosts extends MovingEntity {
     protected int time;
     protected int count = 0;
 
-    protected BufferedImage eatenSprite, frightSprite1, frightSprite2; 
+    protected BufferedImage sprite, eatenSprite, frightSprite1, frightSprite2; 
     
     protected final GhostState chaseMode;
     protected final GhostState scatterMode;
@@ -67,7 +67,7 @@ public abstract class Ghosts extends MovingEntity {
     } else if (state == eatenMode) {
         g.drawImage(eatenSprite.getSubimage(direction * size, 0, size, size),this.xPos, this.yPos, null);
     } else {
-        g.drawImage(eatenSprite.getSubimage((int) subImg * size, 0, size, size),this.xPos, this.yPos, null);
+        g.drawImage(sprite.getSubimage((int) subImg * size + direction * size * imagePerCycle, 0, size, size),this.xPos, this.yPos, null);
     }
    }
 
