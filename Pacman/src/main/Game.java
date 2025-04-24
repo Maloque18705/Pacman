@@ -92,13 +92,13 @@ public class Game implements Observer{
                 } else if (map.get(i).get(j).equals("-")) {
                     entities.add(new GhostShed(j * cellSize, i * cellSize));
                 } else if (map.get(i).get(j).equals("b")) {
-                    entities.add(new Blinky(j * cellSize, i * cellSize));
+                    blinky = new Blinky(j * cellSize, i * cellSize);
                 } else if (map.get(i).get(j).equals("p")) {
-                    entities.add(new Pinky(j * cellSize, i * cellSize));
+                    pinky = new Pinky(j * cellSize, i * cellSize);
                 } else if (map.get(i).get(j).equals("i")) {
-                    entities.add(new Inky(j * cellSize, i * cellSize));
+                    inky = new Inky(j * cellSize, i * cellSize);
                 } else if (map.get(i).get(j).equals("c")) {
-                    entities.add(new Clyde(j * cellSize, i * cellSize));
+                    clyde = new Clyde(j *cellSize, i * cellSize);
                 }
             }
         }
