@@ -34,11 +34,11 @@ public class Pacman extends MovingEntity implements Notify {
             newXSpeed = speed;
         }
 
-        if (k.keyUp.isPressed && ySpeed >= 0 && !CheckCollision.checkWallCollision(this, -speed, 0)) {
+        if (k.keyUp.isPressed && ySpeed >= 0 && !CheckCollision.checkWallCollision(this, 0, -speed)) {
             newYSpeed = -speed;
         }
 
-        if (k.keyDown.isPressed && ySpeed <= 0 && !CheckCollision.checkWallCollision(this, speed, 0)) {
+        if (k.keyDown.isPressed && ySpeed <= 0 && !CheckCollision.checkWallCollision(this, 0, speed)) {
             newYSpeed = speed;
         }
 
@@ -60,7 +60,6 @@ public class Pacman extends MovingEntity implements Notify {
 
     public void update() {
         if (!Game.getFirstInput()) {
-            Game.setFirstInput(true);
             Game.waitIn3Sec();
             Game.setFirstInput(true);
         }

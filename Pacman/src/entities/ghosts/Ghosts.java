@@ -23,7 +23,7 @@ public abstract class Ghosts extends MovingEntity {
     protected int time;
     protected int count = 0;
 
-    protected BufferedImage sprite, eatenSprite, frightSprite1, frightSprite2; 
+    protected BufferedImage eatenSprite, frightSprite1, frightSprite2; 
     
     protected final GhostState chaseMode;
     protected final GhostState scatterMode;
