@@ -37,7 +37,7 @@ public class ScatterMode extends GhostState{
         double minDist = Double.MAX_VALUE;
 
         if (ghosts.getXSpeed() <= 0 && !CheckCollision.checkWallCollision(ghosts, -ghosts.getSpeed(), 0)) {
-            double distance = Utils.getDistance(ghosts.getXPos() - ghosts.getSpeed(), ghosts.getYSpeed(), position[0], position[1]);
+            double distance = Utils.getDistance(ghosts.getXPos() - ghosts.getSpeed(), ghosts.getYPos(), position[0], position[1]);
             if (distance < minDist) {
                 newXSpeed = -ghosts.getSpeed();
                 newYSpeed = 0;
@@ -46,7 +46,7 @@ public class ScatterMode extends GhostState{
         }
 
         if (ghosts.getXSpeed() >= 0 && !CheckCollision.checkWallCollision(ghosts, ghosts.getSpeed(), 0)) {
-            double distance = Utils.getDistance(ghosts.getXPos() - ghosts.getSpeed(), ghosts.getYSpeed(), position[0], position[1]);
+            double distance = Utils.getDistance(ghosts.getXPos() + ghosts.getSpeed(), ghosts.getYPos(), position[0], position[1]);
             if (distance < minDist) {
                 newXSpeed = ghosts.getSpeed();
                 newYSpeed = 0;

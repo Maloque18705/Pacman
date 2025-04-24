@@ -42,6 +42,10 @@ public class Pacman extends MovingEntity implements Notify {
             newYSpeed = speed;
         }
 
+        // Cap nhat toc do di chuyen
+        xSpeed = newXSpeed;
+        ySpeed = newYSpeed;
+
         if (newXSpeed == 0  && newYSpeed == 0) return;
 
         if (Math.abs(newXSpeed) != Math.abs(newYSpeed)) {

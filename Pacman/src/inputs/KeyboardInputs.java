@@ -8,7 +8,7 @@ import java.util.List;
 
 import main.GamePanel;
 
-public class KeyboardInputs implements KeyListener{
+public class KeyboardInputs implements KeyListener {
 
     public static List<Key> keyList = new ArrayList<>();
     public Key keyUp = new Key();

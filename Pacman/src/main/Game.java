@@ -89,7 +89,7 @@ public class Game implements Observer{
                     pacman.registerObserver(this);
                     pacman.registerObserver(Main.getTaskbarPanel());
                     
-                } else if (map.get(i).get(j).equals("X")) {
+                } else if (map.get(i).get(j).equals("x")) {
                     entities.add(new Wall (j * cellSize, i * cellSize));
                 } else if (map.get(i).get(j).equals("-")) {
                     entities.add(new GhostShed(j * cellSize, i * cellSize));
@@ -158,8 +158,8 @@ public class Game implements Observer{
             if (!firstInput && (startTime % 20 < 10)) {
                 g.setColor(Color.YELLOW);
                 g.setStroke(new BasicStroke((float) 1.5));
-                Rectangle2D r = g.getFontMetrics().getStringBounds("Ready", g);
-                g.drawString("Ready", (GamePanel.width - (int) r.getWidth())/2, (GamePanel.height - (int) r.getHeight())/2+37);
+                Rectangle2D r = g.getFontMetrics().getStringBounds("READY!", g);
+                g.drawString("READY", (GamePanel.width - (int) r.getWidth())/2, (GamePanel.height - (int) r.getHeight())/2+37);
             }
         } else if (lose) {
             g.setColor(Color.YELLOW);

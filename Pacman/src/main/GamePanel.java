@@ -76,6 +76,10 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
+    public void input() {
+        game.input(k);
+    }
+
     @Override
     public void run() {
         init();
@@ -89,7 +93,7 @@ public class GamePanel extends JPanel implements Runnable {
             double now = System.nanoTime();
             int updateCount = 0;
             while((now - startTime > TBU) && (updateCount < MUBR)) {
-                // input();
+                input();
                 update();
                 startTime += TBU;
                 updateCount++;
@@ -108,6 +112,6 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
     public static void setRunning(boolean running) {
-            GamePanel.running = running;
+        GamePanel.running = running;
     }
 }

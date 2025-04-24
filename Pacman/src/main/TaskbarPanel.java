@@ -40,7 +40,7 @@ public class TaskbarPanel extends JPanel implements Observer{
         } catch (IOException e) {
             throw new RuntimeException();
         }
-        // lives = 3;
+        lives = 3;
     }
 
     public void updateScore(int s) {
