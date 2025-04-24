@@ -3,6 +3,11 @@ package entities;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.Objects;
+
+import javax.imageio.ImageIO;
 
 import main.GamePanel;
 
@@ -17,8 +22,8 @@ public abstract class MovingEntity extends Entity{
     protected int imagePerCycle;
     protected float subImg;
     protected BufferedImage sprite;
-
     protected int startXPos, startYPos;
+    
     public MovingEntity(int xPos, int yPos, int size, int speed, String spriteName, int imagePerCycle, float imgSpeed) {
         super(xPos, yPos, size);
         this.speed = speed;
@@ -26,6 +31,12 @@ public abstract class MovingEntity extends Entity{
         this.imgSpeed = imgSpeed;
         this.startXPos = xPos;
         this.startYPos = yPos;
+        try {
+            String path = "./res/img/" + spriteName;
+            this.sprite = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource(path)));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void update() {
@@ -62,7 +73,9 @@ public abstract class MovingEntity extends Entity{
 
 
     @Override
-    public void draw(Graphics2D g) {} 
+    public void draw(Graphics2D g) {
+        g.drawImage(sprite.getSubimage(direction * imagePerCycle * size + size * (int) subImg, 0, size, size), xPos, yPos, null);
+    } 
 
     public BufferedImage getSprite() {
         return sprite;

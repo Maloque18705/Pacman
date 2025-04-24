@@ -1,8 +1,7 @@
-import javax.swing.*;
 import java.awt.*;
 import java.awt.image.*;
 import java.io.*;
-import javax.imageio.ImageIO;
+import javax.swing.*;
 
 public class Testing extends JFrame {
 

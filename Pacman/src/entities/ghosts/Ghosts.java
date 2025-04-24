@@ -1,17 +1,11 @@
 package entities.ghosts;
-import java.util.Objects;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.awt.Graphics2D;
-
-import javax.imageio.ImageIO;
-
 import entities.MovingEntity;
 import entities.ghosts.ghostState.*;
-import entities.ghosts.ghostState.FrightMode;
-import entities.ghosts.ghostState.GhostState;
-import entities.ghosts.ghostState.ShedMode;
-import entities.ghosts.ghostState.EatenMode;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.Objects;
+import javax.imageio.ImageIO;
 import main.Game;
 
 public abstract class Ghosts extends MovingEntity {
@@ -67,7 +61,7 @@ public abstract class Ghosts extends MovingEntity {
     } else if (state == eatenMode) {
         g.drawImage(eatenSprite.getSubimage(direction * size, 0, size, size),this.xPos, this.yPos, null);
     } else {
-        g.drawImage(eatenSprite.getSubimage((int) subImg * size, 0, size, size),this.xPos, this.yPos, null);
+        g.drawImage(sprite.getSubimage((int) subImg * size + direction * size * imagePerCycle, 0, size, size),this.xPos, this.yPos, null);
     }
    }
 
