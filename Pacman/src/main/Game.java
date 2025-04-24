@@ -63,7 +63,7 @@ public class Game implements Observer{
 
 
         try {
-            map = ReadFile.readMap(Objects.requireNonNull(getClass().getClassLoader().getResource("./res/level/level.csv")).toURI());
+            map = ReadFile.readMap(Objects.requireNonNull(getClass().getClassLoader().getResource("res/level/level.csv")).toURI());
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }

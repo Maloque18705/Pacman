@@ -25,7 +25,7 @@ public class Main {
                 jPanel.add(gamePanel);
                 jPanel.add(taskbarPanel);
                 jPanel.setLayout(new BoxLayout(jPanel, BoxLayout.Y_AXIS));
-                jFrame.setIconImage(new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("./res/img/icon.png"))).getImage());
+                jFrame.setIconImage(new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("res/img/icon.png"))).getImage());
                 jFrame.add(jPanel);
                 jFrame.pack();
                 jFrame.setLocationRelativeTo(null);
