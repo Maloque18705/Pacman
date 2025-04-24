@@ -13,6 +13,7 @@ import java.util.Objects;
 
 import itf.LoadFont;
 import itf.Observer;
+import utils.Intro;
 import utils.ReadFile;
 import entities.Pacman;
 import entities.SuperPacGum;
@@ -227,6 +228,8 @@ public class Game implements Observer{
 
     public static void waitIn3Sec() {
         try {
+            Intro i = new Intro();
+            i.play();
             Thread.sleep(4800);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);

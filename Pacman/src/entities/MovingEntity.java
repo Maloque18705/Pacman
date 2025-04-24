@@ -3,7 +3,6 @@ package entities;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
 
@@ -52,6 +51,11 @@ public abstract class MovingEntity extends Entity{
             else if (xSpeed<0) direction = 1;
             else if (ySpeed<0) direction = 2;
             else if (ySpeed>0) direction = 3;
+
+            subImg += imgSpeed;
+            if (subImg >= imagePerCycle) {
+                subImg = 0;
+            }
         }
 
         if(xPos > GamePanel.width) {

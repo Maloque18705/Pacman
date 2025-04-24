@@ -41,11 +41,7 @@ public class Pacman extends MovingEntity implements Notify {
         if (k.keyDown.isPressed && ySpeed <= 0 && !CheckCollision.checkWallCollision(this, 0, speed)) {
             newYSpeed = speed;
         }
-
-        // Cap nhat toc do di chuyen
-        xSpeed = newXSpeed;
-        ySpeed = newYSpeed;
-
+        
         if (newXSpeed == 0  && newYSpeed == 0) return;
 
         if (Math.abs(newXSpeed) != Math.abs(newYSpeed)) {
