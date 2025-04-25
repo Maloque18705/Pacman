@@ -11,7 +11,7 @@ public class Clyde extends Ghosts {
 
     @Override
     public int[] getChaseTargetPosition() {
-        if (Utils.getDistance(this.getXPos(), this.getYPos(), Game.getPacman().getXPos(), Game.getPacman().getYPos()) >= 256) {
+        if (Utils.getDistance(this.getXPos(), this.getYPos(), Game.getPacman().getXPos(), Game.getPacman().getYPos()) < 64) {
             int[] position = new int[2];
             position[0] = Game.getPacman().getXPos();
             position[1] = Game.getPacman().getYPos();

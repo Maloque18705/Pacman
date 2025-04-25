@@ -6,6 +6,12 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -51,11 +57,14 @@ public class Game implements Observer{
     private boolean win = false;
     private boolean lose = false;
     private int totalFood = 0;
+    private int score = 0;
+    private int highScore = 0; 
 
     private static Ghosts pinky, inky, blinky, clyde;
 
 
     public Game() {
+        System.out.println("New Game instance: " + this);
         init();
     }
     
@@ -70,6 +79,8 @@ public class Game implements Observer{
         pacGumEatenSound = new PacGumEatenSound();
         pacmanEliminatedSound = new Pacman_Eliminated();
         winSound = new Win();
+
+        highScore = readHighScore();
 
         try {
             map = ReadFile.readMap(Objects.requireNonNull(getClass().getClassLoader().getResource("res/level/level.csv")).toURI());
@@ -135,7 +146,17 @@ public class Game implements Observer{
 
     public void update() {
         if (lose) {
+            if (score > highScore) {
+                highScore = score;
+                saveHighScore(highScore);
+                Main.getTaskbarPanel();
+            }
             pacGumEatenSound.stop();
+            try {
+                Thread.sleep(200); 
+            } catch (InterruptedException e) {
+                System.err.println("Interrupted while waiting: " + e.getMessage());
+            }
             pacmanEliminatedSound.play();
         }
 
@@ -145,6 +166,11 @@ public class Game implements Observer{
 
         if (win) {
             pacGumEatenSound.stop();
+            try {
+                Thread.sleep(200); // Chờ 50ms để đảm bảo âm thanh ăn dừng
+            } catch (InterruptedException e) {
+                System.err.println("Interrupted while waiting: " + e.getMessage());
+            }
             winSound.play();
         }
 
@@ -190,6 +216,41 @@ public class Game implements Observer{
 
     }
 
+    public void cleanup() {
+        pacGumEatenSound.close();
+        pacmanEliminatedSound.close();
+        winSound.close();
+    }
+
+    private int readHighScore() {
+        try {
+            File file = new File("res/highscore.txt");
+            if (!file.exists()) {
+                return 0;
+            }
+            BufferedReader reader = new BufferedReader(new FileReader(file));
+            String line = reader.readLine();
+            reader.close();
+            return line != null ? Integer.parseInt(line.trim()) : 0;
+        } catch (IOException | NumberFormatException e) {
+            System.err.println("Failed to read highscore: " + e.getMessage());
+            return 0;
+        }
+    }
+
+    private void saveHighScore(int highScore) {
+        try {
+            File file = new File("res/highscore.txt");
+            file.getParentFile().mkdirs();
+            BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+            writer.write(String.valueOf(highScore));
+            writer.close();
+        } catch (IOException e) {
+            System.err.println("Failed to save highscore: " + e.getMessage());
+        }
+    }
+
+
     public static List<Entity> getEntities() {
         return entities;
     }
@@ -218,28 +279,33 @@ public class Game implements Observer{
         return pacman.getLives();
     }
 
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    public int getHighScore() {
+        return highScore;
+    }
+
 
     @Override
     public void updatePacGumEaten(PacGum pg) {
         pg.setDestroyed();
         totalFood -= 1;
-        try {
-            Thread.sleep(3);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        } 
+        score += 10;
+        pacGumEatenSound.play();
     }
 
     @Override
     public void updateSuperPacGumEaten(SuperPacGum spg) {
         spg.setDestroyed();
         totalFood -= 1;
-        try {
-            Thread.sleep(3);
-            pacGumEatenSound.play();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        score += 100;
+        pacGumEatenSound.play();
         for (Ghosts ghosts : ghosts) {
             ghosts.getState().superPacGumEaten();
         }
@@ -259,6 +325,7 @@ public class Game implements Observer{
     public void updateGhostCollision(Ghosts gh) {
         if (gh.getState() instanceof FrightMode) {
             gh.getState().eaten();
+            score += 300;
         } else if (!(gh.getState() instanceof EatenMode)) {
             Main.getTaskbarPanel().setLives();
             pacman.reset();

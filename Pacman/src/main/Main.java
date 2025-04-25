@@ -18,9 +18,10 @@ public class Main {
         public Main() {
                 JFrame jFrame = new JFrame(name);
                 JPanel jPanel = new JPanel();
+                Game game = new Game();
 
                 gamePanel = new GamePanel(SCREEN_WIDTH, SCREEN_HEIGHT);
-                taskbarPanel = new TaskbarPanel(SCREEN_WIDTH, SCREEN_HEIGHT/15);
+                taskbarPanel = new TaskbarPanel(SCREEN_WIDTH, SCREEN_HEIGHT/9, game);
 
                 jPanel.add(gamePanel);
                 jPanel.add(taskbarPanel);
@@ -32,6 +33,8 @@ public class Main {
                 jFrame.setResizable(false);
                 jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 jFrame.setVisible(true);
+
+                Game.waitIn3Sec();
         
         }
         

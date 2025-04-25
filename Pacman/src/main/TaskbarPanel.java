@@ -23,13 +23,16 @@ public class TaskbarPanel extends JPanel implements Observer{
     private int width;
     private int height;
     private Font font;
-    private static int score = 0;
+
     private BufferedImage pacman;
     private int lives = 3;
 
-    public TaskbarPanel(int width, int height) {
+    private Game game;
+
+    public TaskbarPanel(int width, int height, Game game) {
         this.width = width;
         this.height = height;
+        this.game = game;
 
         setPreferredSize(new Dimension(width, height));
 
@@ -43,12 +46,9 @@ public class TaskbarPanel extends JPanel implements Observer{
         lives = 3;
     }
 
-    public void updateScore(int s) {
-        score += s;
-    }
-
     @Override
     public void paint(Graphics g) {
+        System.out.println("TaskbarPanel painting: Score=" + game.getScore() + ", HighScore=" + game.getHighScore());
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, width, height);
 
@@ -60,36 +60,53 @@ public class TaskbarPanel extends JPanel implements Observer{
         g.setColor(Color.WHITE);
         g.setFont(font);
 
-        Rectangle2D r = g.getFontMetrics().getStringBounds("SCORE", g);
-        g.drawString("Score: " + score, 10, (height + (int) r.getHeight()) / 2);
-        repaint();
+        Rectangle2D scoreBounds = g.getFontMetrics().getStringBounds("Score: " + game.getScore(), g);
+        g.drawString("Score: " + game.getScore(), 10, (height + (int) scoreBounds.getHeight()) / 2);
+
+        // Hiển thị high score từ Game
+        Rectangle2D highScoreBounds = g.getFontMetrics().getStringBounds("High Score: " + game.getHighScore(), g);
+        g.drawString("High Score: " + game.getHighScore(), 10, (height + (int) scoreBounds.getHeight()) / 2 + (int) highScoreBounds.getHeight() + 5);
+    }
+
+
+    public void updateScore(int s) {
+        int temp = game.getScore();
+        temp = temp + s;
+        game.setScore(temp);
     }
 
     @Override
     public void updatePacGumEaten(PacGum pg) {
+        System.out.println("TaskbarPanel: PacGum eaten, requesting repaint");
         updateScore(10);
+        // revalidate();
+        repaint();
     }
 
     @Override
     public void updateSuperPacGumEaten(SuperPacGum spg) {
+        System.out.println("TaskbarPanel: SuperPacGum eaten, requesting repaint");
         updateScore(100);
+        // revalidate();
+        repaint();
     }
 
     @Override
     public void updateGhostCollision(Ghosts ghosts) {
         if (ghosts.getState() instanceof FrightMode)  {
+            System.out.println("TaskbarPanel: Ghost eaten, requesting repaint");
             updateScore(300);
+            // revalidate();
+            repaint();
         }
-    }
-
-    public static int getScore() {
-        return score;
     }
 
     public void setLives() {
         if (lives>0) {
             lives -= 1;
         }
+        revalidate();
+        repaint();
     }
 
     public int getLives() {

@@ -55,7 +55,7 @@ public class ChaseMode extends GhostState {
     }
 
     if (ghosts.getYSpeed() <=0 && !CheckCollision.checkWallCollision(ghosts, 0, -ghosts.getSpeed())) {
-        double distance = Utils.getDistance(ghosts.getXPos(), ghosts.getYPos() - ghosts.getYSpeed(), position[0], position[1]);
+        double distance = Utils.getDistance(ghosts.getXPos(), ghosts.getYPos() - ghosts.getSpeed(), position[0], position[1]);
         if (distance < minDist) {
             newXSpeed = 0;
             newYSpeed = -ghosts.getSpeed();
@@ -64,7 +64,7 @@ public class ChaseMode extends GhostState {
     }
 
     if (ghosts.getYSpeed() >= 0 && !CheckCollision.checkWallCollision(ghosts, 0, ghosts.getSpeed())) {
-        double distance = Utils.getDistance(ghosts.getXPos(), ghosts.getYPos() + ghosts.getYSpeed(), position[0], position[1]);
+        double distance = Utils.getDistance(ghosts.getXPos(), ghosts.getYPos() + ghosts.getSpeed(), position[0], position[1]);
         if (distance < minDist) {
             newXSpeed = 0;
             newYSpeed = ghosts.getSpeed();

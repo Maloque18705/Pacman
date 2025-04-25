@@ -7,8 +7,6 @@ import itf.*;
 import main.Game;
 import utils.CheckCollision;
 import inputs.KeyboardInputs;
-import itf.Notify;
-
 import entities.ghosts.Ghosts;
 
 public class Pacman extends MovingEntity implements Notify {
@@ -20,17 +18,60 @@ public class Pacman extends MovingEntity implements Notify {
         super(xPos, yPos, 32, 2, "pacman.png", 4, 0.2f);
     }
 
+    @Override
+    public void registerObserver(Observer observer) {
+        if (observer != null) {
+            observerCollection.add(observer);
+            System.out.println("Pacman: Registered observer: " + observer.getClass().getSimpleName());
+        } else {
+            System.err.println("Pacman: Attempted to register null observer");
+        }
+    }
+
+    @Override
+    public void removeObserver(Observer observer) {
+        observerCollection.remove(observer);
+        System.out.println("Pacman: Removed observer: " + observer.getClass().getSimpleName());
+    }
+
+    @Override
+    public void notifyObserverPacGumEaten(PacGum pg) {
+        System.out.println("Pacman: Notifying PacGum eaten, observers: " + observerCollection.size());
+        for (Observer o : observerCollection) {
+            System.out.println("Pacman: Notifying observer: " + o.getClass().getSimpleName());
+            o.updatePacGumEaten(pg);
+        }
+    }
+
+    @Override
+    public void notifyObserverSuperPacGumEaten(SuperPacGum spg) {
+        System.out.println("Pacman: Notifying SuperPacGum eaten, observers: " + observerCollection.size());
+        for (Observer o : observerCollection) {
+            System.out.println("Pacman: Notifying observer: " + o.getClass().getSimpleName());
+            o.updateSuperPacGumEaten(spg);
+        }
+    }
+
+    @Override
+    public void notifyObserverGhostsCollision(Ghosts ghosts) {
+        System.out.println("Pacman: Notifying Ghost collision, observers: " + observerCollection.size());
+        for (Observer o : observerCollection) {
+            System.out.println("Pacman: Notifying observer: " + o.getClass().getSimpleName());
+            o.updateGhostCollision(ghosts);
+        }
+    }
+
     public void input(KeyboardInputs k) {
         int newXSpeed = 0;
         int newYSpeed = 0;
-        if(!onTheGrid()) return;
-        if(!onGameplayWindow()) return;
+        if (!onTheGrid()) return;
+        if (!onGameplayWindow()) return;
 
-        if(k.keyLeft.isPressed && xSpeed >= 0 && !CheckCollision.checkWallCollision(this, -speed, 0)) {
+        if (k.keyLeft.isPressed && xSpeed >= 0 && !CheckCollision.checkWallCollision(this, -speed, 0)) {
             newXSpeed = -speed;
-        } 
+        }
 
-        if (k.keyRight.isPressed && xSpeed <= 0  && !CheckCollision.checkWallCollision(this, speed, 0)) {
+        if (k.keyRight.isPressed && xSpeed <= 0 && !CheckCollision.checkWallCollision(this, speed, 0)) {
             newXSpeed = speed;
         }
 
@@ -41,8 +82,8 @@ public class Pacman extends MovingEntity implements Notify {
         if (k.keyDown.isPressed && ySpeed <= 0 && !CheckCollision.checkWallCollision(this, 0, speed)) {
             newYSpeed = speed;
         }
-        
-        if (newXSpeed == 0  && newYSpeed == 0) return;
+
+        if (newXSpeed == 0 && newYSpeed == 0) return;
 
         if (Math.abs(newXSpeed) != Math.abs(newYSpeed)) {
             xSpeed = newXSpeed;
@@ -70,48 +111,20 @@ public class Pacman extends MovingEntity implements Notify {
 
         PacGum pg = (PacGum) CheckCollision.checkCollision(this, PacGum.class);
         if (pg != null) {
+            System.out.println("Pacman: Detected PacGum collision");
             notifyObserverPacGumEaten(pg);
         }
 
         SuperPacGum spg = (SuperPacGum) CheckCollision.checkCollision(this, SuperPacGum.class);
         if (spg != null) {
+            System.out.println("Pacman: Detected SuperPacGum collision");
             notifyObserverSuperPacGumEaten(spg);
         }
 
         Ghosts ghosts = (Ghosts) CheckCollision.checkCollision(this, Ghosts.class);
         if (ghosts != null) {
+            System.out.println("Pacman: Detected Ghost collision");
             notifyObserverGhostsCollision(ghosts);
-        }
-    }
-
-    @Override 
-    public void registerObserver(Observer observer) {
-        observerCollection.add(observer);
-    }
-
-    @Override
-    public void removeObserver(Observer observer) {
-        observerCollection.remove(observer);
-    }
-
-    @Override 
-    public void notifyObserverPacGumEaten(PacGum pg) {
-        for (Observer o : observerCollection) {
-            o.updatePacGumEaten(pg);
-        }
-    }
-
-    @Override
-    public void notifyObserverSuperPacGumEaten(SuperPacGum spg) {
-        for (Observer o : observerCollection) {
-            o.updateSuperPacGumEaten(spg);
-        } 
-    }
-
-    @Override 
-    public void notifyObserverGhostsCollision(Ghosts ghosts) {
-        for (Observer o : observerCollection) {
-            o.updateGhostCollision(ghosts);
         }
     }
 

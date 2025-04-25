@@ -28,17 +28,37 @@ public abstract class Sound {
     }
 
     public void play() {
-        clip.start();
+        if (clip != null) {
+            try {
+                if (clip.isRunning()) {
+                    clip.stop(); 
+                }
+                clip.setMicrosecondPosition(0); 
+                clip.start(); 
+            } catch (Exception e) {
+                System.err.println("Failed to play sound: " + e.getMessage());
+            }
+        }
     }
 
     public void stop() {
-        try {
-            sound.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        if (clip != null) {
+            clip.stop();
+            clip.setMicrosecondPosition(0);
         }
+    }
 
-        clip.close();
-        clip.stop();
+    public void close() {
+        if (clip != null) {
+            clip.stop();
+            clip.close();
+        }
+        if (sound != null) {
+            try {
+                sound.close();
+            } catch (IOException e) {
+                System.err.println("Failed to close sound: " + e.getMessage());
+            }
+        }
     }
 }
