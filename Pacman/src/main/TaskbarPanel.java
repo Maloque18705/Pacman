@@ -12,8 +12,8 @@ import java.util.Objects;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
-import entities.PacGum;
-import entities.SuperPacGum;
+import entities.PacPellet;
+import entities.SuperPacPellet;
 import entities.ghosts.Ghosts;
 import entities.ghosts.ghostState.FrightMode;
 import itf.LoadFont;
@@ -76,16 +76,16 @@ public class TaskbarPanel extends JPanel implements Observer{
     }
 
     @Override
-    public void updatePacGumEaten(PacGum pg) {
-        System.out.println("TaskbarPanel: PacGum eaten, requesting repaint");
+    public void updatePacPelletEaten(PacPellet pl) {
+        System.out.println("TaskbarPanel: PacPellet eaten, requesting repaint");
         updateScore(10);
         // revalidate();
         repaint();
     }
 
     @Override
-    public void updateSuperPacGumEaten(SuperPacGum spg) {
-        System.out.println("TaskbarPanel: SuperPacGum eaten, requesting repaint");
+    public void updateSuperPacPelletEaten(SuperPacPellet spl) {
+        System.out.println("TaskbarPanel: SuperPacPellet eaten, requesting repaint");
         updateScore(100);
         // revalidate();
         repaint();

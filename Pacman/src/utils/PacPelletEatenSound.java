@@ -1,7 +1,7 @@
 package utils;
 
-public class PacGumEatenSound extends Sound{
-    public PacGumEatenSound() {
+public class PacPelletEatenSound extends Sound{
+    public PacPelletEatenSound() {
         super("eatenPacGum.wav");
     }
 

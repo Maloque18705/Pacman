@@ -3,10 +3,10 @@ package entities;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
-public class SuperPacGum extends StaticEntity {
+public class SuperPacPellet extends StaticEntity {
    private int blinkTimer;
    
-   public SuperPacGum(int xPos, int yPos) {
+   public SuperPacPellet(int xPos, int yPos) {
     super(xPos, yPos, 16);
     blinkTimer = 0;
    }

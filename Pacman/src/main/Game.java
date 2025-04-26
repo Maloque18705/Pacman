@@ -20,12 +20,12 @@ import java.util.Objects;
 import itf.LoadFont;
 import itf.Observer;
 import utils.Intro;
-import utils.PacGumEatenSound;
+import utils.PacPelletEatenSound;
 import utils.Pacman_Eliminated;
 import utils.ReadFile;
 import utils.Win;
 import entities.Pacman;
-import entities.SuperPacGum;
+import entities.SuperPacPellet;
 import entities.Wall;
 import entities.ghosts.Blinky;
 import entities.ghosts.Clyde;
@@ -37,7 +37,7 @@ import entities.ghosts.ghostState.FrightMode;
 import inputs.KeyboardInputs;
 import entities.Entity;
 import entities.GhostShed;
-import entities.PacGum;
+import entities.PacPellet;
 
 public class Game implements Observer{
 
@@ -48,7 +48,7 @@ public class Game implements Observer{
     private static List<Wall> walls;    
     private static Pacman pacman = null;
     // Implement sounds
-    private static PacGumEatenSound pacGumEatenSound;
+    private static PacPelletEatenSound pacPelletEatenSound;
     private static Win winSound;
     private static Pacman_Eliminated pacmanEliminatedSound;
 
@@ -76,7 +76,7 @@ public class Game implements Observer{
         
         
         // THIS SECTION IS FOR SOUND 
-        pacGumEatenSound = new PacGumEatenSound();
+        pacPelletEatenSound = new PacPelletEatenSound();
         pacmanEliminatedSound = new Pacman_Eliminated();
         winSound = new Win();
 
@@ -98,10 +98,10 @@ public class Game implements Observer{
         for (int i = 0; i < cellsPerCol; i++) {
             for (int j = 0; j < cellsPerRow; j++) {
                 if (map.get(i).get(j).equals(".")) {
-                    entities.add(new PacGum(j * cellSize, i * cellSize));
+                    entities.add(new PacPellet(j * cellSize, i * cellSize));
                     totalFood += 1;
                 } else if (map.get(i).get(j).equals("o")) {
-                    entities.add(new SuperPacGum(j * cellSize, i * cellSize));
+                    entities.add(new SuperPacPellet(j * cellSize, i * cellSize));
                     totalFood += 1;
                 } else if (map.get(i).get(j).equals("P")) {
                     pacman = new Pacman(j * cellSize, i * cellSize);
@@ -156,7 +156,7 @@ public class Game implements Observer{
                 saveHighScore(highScore);
                 Main.getTaskbarPanel();
             }
-            pacGumEatenSound.stop();
+            pacPelletEatenSound.stop();
             try {
                 Thread.sleep(200); 
             } catch (InterruptedException e) {
@@ -170,7 +170,7 @@ public class Game implements Observer{
         }
 
         if (win) {
-            pacGumEatenSound.stop();
+            pacPelletEatenSound.stop();
             try {
                 Thread.sleep(200); // Chờ 50ms để đảm bảo âm thanh ăn dừng
             } catch (InterruptedException e) {
@@ -227,7 +227,7 @@ public class Game implements Observer{
     }
 
     public void cleanup() {
-        pacGumEatenSound.close();
+        pacPelletEatenSound.close();
         pacmanEliminatedSound.close();
         winSound.close();
     }
@@ -324,21 +324,21 @@ public class Game implements Observer{
 
 
     @Override
-    public void updatePacGumEaten(PacGum pg) {
-        pg.setDestroyed();
+    public void updatePacPelletEaten(PacPellet pl) {
+        pl.setDestroyed();
         totalFood -= 1;
         score += 10;
-        pacGumEatenSound.play();
+        pacPelletEatenSound.play();
     }
 
     @Override
-    public void updateSuperPacGumEaten(SuperPacGum spg) {
-        spg.setDestroyed();
+    public void updateSuperPacPelletEaten(SuperPacPellet spl) {
+        spl.setDestroyed();
         totalFood -= 1;
         score += 100;
-        pacGumEatenSound.play();
+        pacPelletEatenSound.play();
         for (Ghosts ghosts : ghosts) {
-            ghosts.getState().superPacGumEaten();
+            ghosts.getState().superPacPelletEaten();
         }
     }
 

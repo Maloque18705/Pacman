@@ -35,20 +35,20 @@ public class Pacman extends MovingEntity implements Notify {
     }
 
     @Override
-    public void notifyObserverPacGumEaten(PacGum pg) {
-        System.out.println("Pacman: Notifying PacGum eaten, observers: " + observerCollection.size());
+    public void notifyObserverPacPelletEaten(PacPellet pl) {
+        System.out.println("Pacman: Notifying PacPellet eaten, observers: " + observerCollection.size());
         for (Observer o : observerCollection) {
             System.out.println("Pacman: Notifying observer: " + o.getClass().getSimpleName());
-            o.updatePacGumEaten(pg);
+            o.updatePacPelletEaten(pl);
         }
     }
 
     @Override
-    public void notifyObserverSuperPacGumEaten(SuperPacGum spg) {
-        System.out.println("Pacman: Notifying SuperPacGum eaten, observers: " + observerCollection.size());
+    public void notifyObserverSuperPacPelletEaten(SuperPacPellet spl) {
+        System.out.println("Pacman: Notifying SuperPacPellet eaten, observers: " + observerCollection.size());
         for (Observer o : observerCollection) {
             System.out.println("Pacman: Notifying observer: " + o.getClass().getSimpleName());
-            o.updateSuperPacGumEaten(spg);
+            o.updateSuperPacPelletEaten(spl);
         }
     }
 
@@ -109,16 +109,16 @@ public class Pacman extends MovingEntity implements Notify {
             updatePos();
         }
 
-        PacGum pg = (PacGum) CheckCollision.checkCollision(this, PacGum.class);
-        if (pg != null) {
-            System.out.println("Pacman: Detected PacGum collision");
-            notifyObserverPacGumEaten(pg);
+        PacPellet pl = (PacPellet) CheckCollision.checkCollision(this, PacPellet.class);
+        if (pl != null) {
+            System.out.println("Pacman: Detected PacPellet collision");
+            notifyObserverPacPelletEaten(pl);
         }
 
-        SuperPacGum spg = (SuperPacGum) CheckCollision.checkCollision(this, SuperPacGum.class);
-        if (spg != null) {
-            System.out.println("Pacman: Detected SuperPacGum collision");
-            notifyObserverSuperPacGumEaten(spg);
+        SuperPacPellet spl = (SuperPacPellet) CheckCollision.checkCollision(this, SuperPacPellet.class);
+        if (spl != null) {
+            System.out.println("Pacman: Detected SuperPacPellet collision");
+            notifyObserverSuperPacPelletEaten(spl);
         }
 
         Ghosts ghosts = (Ghosts) CheckCollision.checkCollision(this, Ghosts.class);

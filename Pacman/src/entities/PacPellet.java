@@ -3,8 +3,8 @@ package entities;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
-public class PacGum extends StaticEntity{
-   public PacGum(int xPos, int yPos) {
+public class PacPellet extends StaticEntity{
+   public PacPellet(int xPos, int yPos) {
     super(xPos + 8, yPos + 8, 4);
    }
    

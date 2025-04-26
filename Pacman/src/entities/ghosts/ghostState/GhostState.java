@@ -9,7 +9,7 @@ public abstract class GhostState {
    }
 
 
-   public void superPacGumEaten() {}
+   public void superPacPelletEaten() {}
 
    public void timerModeOver() {}
 

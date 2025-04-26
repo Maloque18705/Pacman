@@ -1,11 +1,11 @@
 package itf;
 
 import entities.ghosts.Ghosts;
-import entities.PacGum;
-import entities.SuperPacGum;
+import entities.PacPellet;
+import entities.SuperPacPellet;
 
 public interface Observer {
-    void updatePacGumEaten(PacGum pg);
-    void updateSuperPacGumEaten(SuperPacGum spg);
+    void updatePacPelletEaten(PacPellet pl);
+    void updateSuperPacPelletEaten(SuperPacPellet spl);
     void updateGhostCollision(Ghosts gh);    
 }

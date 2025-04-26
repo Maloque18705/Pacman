@@ -10,7 +10,7 @@ public class ChaseMode extends GhostState {
    }
    
    @Override
-   public void superPacGumEaten() {
+   public void superPacPelletEaten() {
     ghosts.switchFrightMode();
    }
 
