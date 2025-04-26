@@ -10,7 +10,7 @@ public class ScatterMode extends GhostState{
     }
 
     @Override 
-    public void superPacGumEaten() {
+    public void superPacPelletEaten() {
         ghosts.switchFrightMode();
     }
 
