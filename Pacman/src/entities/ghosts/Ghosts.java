@@ -8,11 +8,7 @@
 
     import entities.MovingEntity;
     import entities.ghosts.ghostState.*;
-    import entities.ghosts.ghostState.FrightMode;
-    import entities.ghosts.ghostState.GhostState;
-    import entities.ghosts.ghostState.ShedMode;
-    import entities.ghosts.ghostState.EatenMode;
-    import main.Game;
+import main.Game;
 
     public abstract class Ghosts extends MovingEntity {
         protected GhostState state;
@@ -84,11 +80,13 @@
     }
 
     public void switchFrightMode() {
+        System.out.println("Ghosts: " + this.getClass().getSimpleName() + " switching to FrightMode");
         frightTimer = 0;
         state = frightMode;
     }
 
     public void switchEatenMode() {
+        System.out.println("Ghosts: " + this.getClass().getSimpleName() + " switching to EatenMode");
         state = eatenMode;
     }
 

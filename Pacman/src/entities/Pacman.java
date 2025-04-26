@@ -128,6 +128,10 @@ public class Pacman extends MovingEntity implements Notify {
         }
     }
 
+    public void setLive(int lives) {
+        this.lives = lives;
+    }
+
     public void setLives() {
         if (lives > 1) {
             lives -= 1;

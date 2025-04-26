@@ -140,7 +140,12 @@ public class Game implements Observer{
     }
 
     public void input(KeyboardInputs key) {
-        pacman.input(key); // Input trong Pacman
+        if (lose && key.keySpace.isPressed) {
+            System.out.println("Game: Spacebar pressed, restarting game");
+            reset();
+        } else {
+            pacman.input(key);
+        }
     }
 
 
@@ -184,7 +189,7 @@ public class Game implements Observer{
     public void draw(Graphics2D g) {
         Font f = LoadFont.loadFont();
         if (f != null) {
-            f.deriveFont(10f);
+            f.deriveFont(15f);
             g.setFont(f);
         } else {
             throw new RuntimeException("Font is null");
@@ -205,14 +210,19 @@ public class Game implements Observer{
         } else if (lose) {
             g.setColor(Color.YELLOW);
             g.setStroke(new BasicStroke((float) 1.5));
-            Rectangle2D r = g.getFontMetrics().getStringBounds("LOSE!", g);
-            g.drawString("LOSE", (GamePanel.width - (int) r.getWidth())/2, (GamePanel.height - (int) r.getHeight())/2+37);
+            Rectangle2D r = g.getFontMetrics().getStringBounds("GAME OVER!", g);
+            g.drawString("GAME OVER", (GamePanel.width - (int) r.getWidth())/2, (GamePanel.height - (int) r.getHeight())/2+37);
+            showRestartPrompt(g);
+
         } else if (win) {
             g.setColor(Color.YELLOW);
             g.setStroke(new BasicStroke((float) 1.5));
             Rectangle2D r = g.getFontMetrics().getStringBounds("WIN!", g);
             g.drawString("WIN", (GamePanel.width - (int) r.getWidth())/2, (GamePanel.height - (int) r.getHeight())/2+37);
+            showRestartPrompt(g);
         }
+
+        
 
     }
 
@@ -248,6 +258,27 @@ public class Game implements Observer{
         } catch (IOException e) {
             System.err.println("Failed to save highscore: " + e.getMessage());
         }
+    }
+
+    public void showRestartPrompt(Graphics2D g) {
+        g.setColor(Color.YELLOW);
+        g.setFont(g.getFont().deriveFont(8f)); // Font nhỏ hơn cho thông báo
+        String prompt = "Press Spacebar to restart";
+        Rectangle2D r = g.getFontMetrics().getStringBounds(prompt, g);
+        g.drawString(prompt, (GamePanel.width - (int) r.getWidth()) / 2, (GamePanel.height - (int) r.getHeight()) / 2 + 50);
+        System.out.println("Game: Showing restart prompt");
+    }
+
+    public void reset() {
+        System.out.println("Game: Resetting game");
+        lose = false;
+        win = false;
+        totalFood = 0;
+        entities.clear();
+        walls.clear();
+        ghosts.clear();
+        init();
+        Main.getTaskbarPanel().reset();
     }
 
 
@@ -311,15 +342,15 @@ public class Game implements Observer{
         }
     }
 
-    public static void waitIn3Sec() {
-        try {
-            Intro i = new Intro();
-            i.play();
-            Thread.sleep(4800);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+        public static void waitIn3Sec() {
+            try {
+                Intro i = new Intro();
+                i.play();
+                Thread.sleep(3000);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         }
-    }
 
     @Override
     public void updateGhostCollision(Ghosts gh) {
@@ -337,6 +368,4 @@ public class Game implements Observer{
             }
         }
     }
-
-    
 }

@@ -89,7 +89,7 @@ public class GamePanel extends JPanel implements Runnable {
         double startTime = System.nanoTime();
 
         while(running) {
-            k.keyLeft.keyState();
+            // k.keyLeft.keyState();
             double now = System.nanoTime();
             int updateCount = 0;
             while((now - startTime > TBU) && (updateCount < MUBR)) {
