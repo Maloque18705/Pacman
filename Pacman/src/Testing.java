@@ -18,7 +18,7 @@ public class Testing extends JFrame {
     
     // Biến cho drawScore và showIntroScreen
     private int score = 0; // Điểm số
-    private final Font smallFont = new Font("Helvetica", Font.BOLD, 14);
+    private final Font smallFont = new Font("Helvetica", Font.BOLD, 15);
     private final Font optionsFont = new Font("Helvetica", Font.BOLD, 30);
     private int highScore = 1000;
 
@@ -26,7 +26,7 @@ public class Testing extends JFrame {
         setTitle(NAME);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
-        setLocationRelativeTo(null); // Căn giữa cửa sổ
+        setLocationRelativeTo(null); 
         setResizable(false);
 
         try {
@@ -36,25 +36,11 @@ public class Testing extends JFrame {
             throw new RuntimeException();
         }
 
-        // Tạo panel tùy chỉnh để vẽ
         GamePanel gamePanel = new GamePanel();
         add(gamePanel);
 
         gamePanel.setFocusable(true);
         gamePanel.requestFocusInWindow();
-        gamePanel.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                int keyCode = e.getKeyCode();
-                if (keyCode == KeyEvent.VK_UP) {
-                    selectedOption = (selectedOption - 1 + options.length) % options.length;
-                    gamePanel.repaint();
-                } else if (keyCode == KeyEvent.VK_DOWN) {
-                    selectedOption = (selectedOption + 1) % options.length;
-                    gamePanel.repaint();
-                }
-            }
-        });
 
         setVisible(true);
     }
@@ -79,10 +65,41 @@ public class Testing extends JFrame {
 
     // JPanel tùy chỉnh để vẽ
     private class GamePanel extends JPanel {
+        private boolean blinkVisible = true;
+        private final Timer blinkTimer;
+
         public GamePanel() {
             // Đặt kích thước ưu tiên cho GamePanel
             setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
-            setBackground(Color.BLACK); // Đặt nền đen để dễ thấy
+            setBackground(Color.BLACK); 
+
+            blinkTimer = new Timer(500, e -> {
+                blinkVisible = !blinkVisible;
+                repaint();
+            });
+            blinkTimer.start();
+
+            addKeyListener(new KeyAdapter() {
+                @Override
+                public void keyPressed(KeyEvent e) {
+                    int keyCode = e.getKeyCode();
+                    if (keyCode == KeyEvent.VK_UP) {
+                        selectedOption = (selectedOption -1 + options.length) % options.length;
+                        repaint();
+                    }   else if (keyCode == KeyEvent.VK_DOWN) {
+                        selectedOption = (selectedOption + 1) % options.length;
+                        repaint();
+                    } else if (keyCode == KeyEvent.VK_ENTER || keyCode == KeyEvent.VK_SPACE) {
+                        if (options[selectedOption].equals("START")) {
+                            System.out.println("START SELECTED");
+                        } else if (options[selectedOption].equals("QUIT")) {
+                            System.exit(0);
+                        } else if (options[selectedOption].equals("SETTINGS")) {
+                            System.out.println("SETTINGS selected");
+                        }
+                    }
+                }
+            });
         }
 
         @Override
@@ -105,7 +122,7 @@ public class Testing extends JFrame {
             // showIntroScreen(g2d);
             if (image != null) {
                 int x = (SCREEN_WIDTH - image.getWidth()) / 2 - 5;
-                int y = (SCREEN_HEIGHT - image.getHeight()) / 2 - 150;
+                int y = (SCREEN_HEIGHT - image.getHeight()) / 2 - 100;
                 g2d.drawImage(image, x, y, this);
             }
             drawScore(g2d);
@@ -117,12 +134,13 @@ public class Testing extends JFrame {
                 int textX = (SCREEN_WIDTH - optionTextWidth) /2;
 
                 if (i == selectedOption) {
-                    g2d.setColor(Color.YELLOW);
-                    int[] xPoints = {textX - 40, textX - 10, textX - 40};
-                    int[] yPoints = {optionY - 20, optionY - 10, optionY};
-                    g2d.fillPolygon(xPoints, yPoints, 3);
-                    // g2d.setColor((Color.YELLOW));
-                    // g2d.fillRect(50, optionY - 15, SCREEN_WIDTH - 100, 20);
+
+                    if (blinkVisible) {
+                        g2d.setColor(Color.YELLOW);
+                        int[] xPoints = {textX - 40, textX - 10, textX - 40};
+                        int[] yPoints = {optionY - 20, optionY - 10, optionY};
+                        g2d.fillPolygon(xPoints, yPoints, 3);
+                    }
                     g2d.setColor(Color.YELLOW);
                 } else {
                     g2d.setColor(Color.WHITE);
