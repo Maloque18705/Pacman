@@ -108,7 +108,7 @@ public class Game implements Observer{
                     pacman = new Pacman(j * cellSize, i * cellSize);
 
                     pacman.registerObserver(this);
-                    pacman.registerObserver(Main.getTaskbarPanel());
+                    pacman.registerObserver(Main.getHeaderPanel());
                     
                 } else if (map.get(i).get(j).equals("x")) {
                     entities.add(new Wall (j * cellSize, i * cellSize));

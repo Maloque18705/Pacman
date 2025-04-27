@@ -19,9 +19,7 @@ public class Menu extends JPanel {
     private final String[] options = {"START", "SETTINGS", "QUIT"};
     private int selectedOption = 0;
     private BufferedImage image;
-    
-    private int score = 0; 
-    private int highScore = 1000;
+
     private final Timer blinkTimer;
     private boolean blinkVisible = true;
 
@@ -101,25 +99,7 @@ public class Menu extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        Graphics2D g2d = (Graphics2D) g;
-
-        Font topFont = LoadFont.loadFont();
-        if (topFont != null) {
-            topFont = topFont.deriveFont(15f);
-            g2d.setFont(topFont);
-        } else {
-            throw new RuntimeException("Font is null");
-        }
-        
-        g2d.setColor(Color.WHITE);
-        FontMetrics metrics = g2d.getFontMetrics(topFont);
-        String highScoreText = "HIGHSCORE";
-        int textWidth = metrics.stringWidth(highScoreText);
-        g2d.drawString(highScoreText, (width - textWidth) / 2, 20);
-
-        String highScoreNum = String.valueOf(highScore);
-        textWidth = metrics.stringWidth(highScoreNum);
-        g2d.drawString(highScoreNum, (width - textWidth) / 2, 40);
+        Graphics2D g2d = (Graphics2D) g; 
         
         // Draw LOGO
         if (image != null) {
@@ -158,20 +138,6 @@ public class Menu extends JPanel {
             g2d.drawString(options[i], textX, optionY);
             optionY += 40;
         }
-
-
-        // Draw SCORE
-        String s = "1UP" + score;
-        Font scoreFont = LoadFont.loadFont();
-        if (scoreFont != null) {
-            scoreFont = scoreFont.deriveFont(20f);
-            g2d.setFont(scoreFont);
-        } else {
-            throw new RuntimeException("Font is null");
-        }
-        g.setColor(new Color(96, 128, 255));
-        // Điều chỉnh tọa độ để hiển thị trong vùng nhìn thấy
-        g.drawString(s, width / 2, height - 20);
 
     }
 }
