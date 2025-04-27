@@ -115,8 +115,8 @@ public class TaskbarPanel extends JPanel implements Observer{
 
     public void reset() {
         lives = 3;
-        game.setScore(0);
-        revalidate();
+        // game.setScore(0);
+        // revalidate();
         repaint();
     }
 }

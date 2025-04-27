@@ -23,7 +23,7 @@ public class GamePanel extends JPanel implements Runnable {
     private Graphics2D g;
 
     private KeyboardInputs k;
-    private static boolean running;
+    private boolean running;
 
     public GamePanel(int width, int height) {
         GamePanel.width = width;
@@ -49,8 +49,7 @@ public class GamePanel extends JPanel implements Runnable {
         running =true;
         bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         g = (Graphics2D) bufferedImage.getGraphics();
-        game = new Game();
-
+        game = Main.getGame();
         k = new KeyboardInputs(this);
     }
 
@@ -111,7 +110,7 @@ public class GamePanel extends JPanel implements Runnable {
             }
         }
     }
-    public static void setRunning(boolean running) {
-        GamePanel.running = running;
+    public void setRunning(boolean running) {
+        this.running = running;
     }
 }

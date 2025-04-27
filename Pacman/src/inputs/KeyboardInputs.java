@@ -16,6 +16,7 @@ public class KeyboardInputs implements KeyListener {
     public Key keyLeft = new Key();
     public Key keyRight = new Key();
     public Key keySpace = new Key();
+    public Key keyESC = new Key();
 
 
     public KeyboardInputs(GamePanel g) {
@@ -38,6 +39,9 @@ public class KeyboardInputs implements KeyListener {
         }
         if (e.getKeyCode() == KeyEvent.VK_SPACE) {
             keySpace.toggle(pressed);
+        }
+        if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+            keyESC.toggle(pressed);
         }
     }
 

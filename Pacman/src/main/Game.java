@@ -59,11 +59,12 @@ public class Game implements Observer{
     private int totalFood = 0;
     private int score = 0;
     private int highScore = 0; 
+    private boolean loseSoundPlayed = false;
 
     private static Ghosts pinky, inky, blinky, clyde;
 
 
-    public Game() {
+    public Game(TaskbarPanel taskbarPanel) {
         System.out.println("New Game instance: " + this);
         init();
     }
@@ -143,6 +144,9 @@ public class Game implements Observer{
         if (lose && key.keySpace.isPressed) {
             System.out.println("Game: Spacebar pressed, restarting game");
             reset();
+        } else if (key.keyESC.isPressed) {
+            System.out.println("RETURN TO MENU");
+            Main.returnToMenu();
         } else {
             pacman.input(key);
         }
@@ -154,22 +158,25 @@ public class Game implements Observer{
             if (score > highScore) {
                 highScore = score;
                 saveHighScore(highScore);
-                Main.getTaskbarPanel();
+                // Main.getTaskbarPanel();
             }
-            pacPelletEatenSound.stop();
-            try {
-                Thread.sleep(200); 
-            } catch (InterruptedException e) {
-                System.err.println("Interrupted while waiting: " + e.getMessage());
-            }
-            pacmanEliminatedSound.play();
+            if (!loseSoundPlayed) {
+                pacPelletEatenSound.stop();
+                try {
+                    Thread.sleep(200); 
+                } catch (InterruptedException e) {
+                    System.err.println("Interrupted while waiting: " + e.getMessage());
+                }
+                pacmanEliminatedSound.play();
+                loseSoundPlayed = true;
+            } 
         }
 
-        if (totalFood ==0 ) {
+        else if (totalFood ==0 ) {
             win = true;
         }
 
-        if (win) {
+        else if (win) {
             pacPelletEatenSound.stop();
             try {
                 Thread.sleep(200); // Chờ 50ms để đảm bảo âm thanh ăn dừng
@@ -179,7 +186,7 @@ public class Game implements Observer{
             winSound.play();
         }
 
-        if(!win && !lose) {
+        else if(!win && !lose) {
             for (Entity e : entities) {
                 if(!e.isDestroyed()) e.update();
             }
