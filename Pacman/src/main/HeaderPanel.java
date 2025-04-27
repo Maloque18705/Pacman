@@ -26,7 +26,7 @@ public class HeaderPanel extends JPanel implements itf.Observer{
         this.score = score;
         this.highScore = highScore;
         this.game = game;
-        setPreferredSize(new Dimension(width, 50));
+        setPreferredSize(new Dimension(width, 70));
         setBackground(Color.BLACK);
     }
 
@@ -53,6 +53,8 @@ public class HeaderPanel extends JPanel implements itf.Observer{
         textWidth = metrics.stringWidth(highScoreNum);
         g2d.drawString(highScoreNum, (width - textWidth) / 2, 40);
 
+        
+        // Draw SCORE
         Font scoreFont = LoadFont.loadFont();
         if (scoreFont != null) {
             scoreFont = scoreFont.deriveFont(15f);
@@ -66,7 +68,7 @@ public class HeaderPanel extends JPanel implements itf.Observer{
         textWidth = g2d.getFontMetrics(scoreFont).stringWidth(s);
         g2d.drawString(s, (width - textWidth) / 10, 20);
 
-        String scoreText = s;
+        String scoreText = String.valueOf(score);
         textWidth = g2d.getFontMetrics(scoreFont).stringWidth(scoreText);
         g2d.drawString(scoreText, (width - textWidth) / 10, 40);
     }

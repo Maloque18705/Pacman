@@ -62,9 +62,11 @@ public class Game implements Observer{
     private boolean loseSoundPlayed = false;
 
     private static Ghosts pinky, inky, blinky, clyde;
+    private final TaskbarPanel taskbarPanel;
 
 
     public Game(TaskbarPanel taskbarPanel) {
+        this.taskbarPanel = taskbarPanel;
         System.out.println("New Game instance: " + this);
         init();
     }
@@ -108,6 +110,7 @@ public class Game implements Observer{
                     pacman = new Pacman(j * cellSize, i * cellSize);
 
                     pacman.registerObserver(this);
+                    pacman.registerObserver(Main.getTaskbarPanel());
                     pacman.registerObserver(Main.getHeaderPanel());
                     
                 } else if (map.get(i).get(j).equals("x")) {
@@ -281,11 +284,15 @@ public class Game implements Observer{
         lose = false;
         win = false;
         totalFood = 0;
+        score = 0;
         entities.clear();
         walls.clear();
         ghosts.clear();
         init();
-        Main.getTaskbarPanel().reset();
+        taskbarPanel.reset();
+        if (Main.getHeaderPanel() != null) {
+            Main.getHeaderPanel().setScore(0);
+        }
     }
 
 
@@ -323,6 +330,9 @@ public class Game implements Observer{
 
     public void setScore(int score) {
         this.score = score;
+        if (Main.getHeaderPanel() != null) {
+            Main.getHeaderPanel().setScore(score);
+        }
     }
 
     public int getHighScore() {
@@ -336,6 +346,9 @@ public class Game implements Observer{
         totalFood -= 1;
         score += 10;
         pacPelletEatenSound.play();
+        if (Main.getHeaderPanel() != null) {
+            Main.getHeaderPanel().setScore(score);
+        }
     }
 
     @Override
@@ -346,6 +359,9 @@ public class Game implements Observer{
         pacPelletEatenSound.play();
         for (Ghosts ghosts : ghosts) {
             ghosts.getState().superPacPelletEaten();
+        }
+        if (Main.getHeaderPanel() != null) {
+            Main.getHeaderPanel().setScore(score);
         }
     }
 
@@ -364,6 +380,9 @@ public class Game implements Observer{
         if (gh.getState() instanceof FrightMode) {
             gh.getState().eaten();
             score += 300;
+            if (Main.getHeaderPanel() != null) {
+                Main.getHeaderPanel().setScore(score);
+            }
         } else if (!(gh.getState() instanceof EatenMode)) {
             Main.getTaskbarPanel().setLives();
             pacman.reset();
