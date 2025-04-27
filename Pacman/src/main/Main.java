@@ -43,7 +43,7 @@ public class Main {
                 gamePanel = new GamePanel(SCREEN_WIDTH, SCREEN_HEIGHT);
                 taskbarPanel = new TaskbarPanel(SCREEN_WIDTH, SCREEN_HEIGHT/9, game);
                 panel.add(gamePanel);
-                panel.add(taskbarPanel);
+                // panel.add(taskbarPanel);
                 frame.add(panel);
                 frame.revalidate();
                 frame.repaint();
