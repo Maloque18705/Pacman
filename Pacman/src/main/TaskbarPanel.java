@@ -48,7 +48,6 @@ public class TaskbarPanel extends JPanel implements Observer{
 
     @Override
     public void paint(Graphics g) {
-        System.out.println("TaskbarPanel painting: Score=" + game.getScore() + ", HighScore=" + game.getHighScore());
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, width, height);
 
@@ -59,13 +58,6 @@ public class TaskbarPanel extends JPanel implements Observer{
 
         g.setColor(Color.WHITE);
         g.setFont(font);
-
-        Rectangle2D scoreBounds = g.getFontMetrics().getStringBounds("Score: " + game.getScore(), g);
-        g.drawString("Score: " + game.getScore(), 10, (height + (int) scoreBounds.getHeight()) / 2);
-
-        // Hiển thị high score từ Game
-        Rectangle2D highScoreBounds = g.getFontMetrics().getStringBounds("High Score: " + game.getHighScore(), g);
-        g.drawString("High Score: " + game.getHighScore(), 10, (height + (int) scoreBounds.getHeight()) / 2 + (int) highScoreBounds.getHeight() + 5);
     }
 
 

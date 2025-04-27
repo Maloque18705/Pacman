@@ -6,12 +6,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -58,7 +52,6 @@ public class Game implements Observer{
     private boolean lose = false;
     private int totalFood = 0;
     private int score = 0;
-    private int highScore = 0; 
     private boolean loseSoundPlayed = false;
 
     private static Ghosts pinky, inky, blinky, clyde;
@@ -83,7 +76,7 @@ public class Game implements Observer{
         pacmanEliminatedSound = new Pacman_Eliminated();
         winSound = new Win();
 
-        highScore = readHighScore();
+        // highScore = readHighScore();
 
         try {
             map = ReadFile.readMap(Objects.requireNonNull(getClass().getClassLoader().getResource("res/level/level.csv")).toURI());
@@ -158,11 +151,6 @@ public class Game implements Observer{
 
     public void update() {
         if (lose) {
-            if (score > highScore) {
-                highScore = score;
-                saveHighScore(highScore);
-                // Main.getTaskbarPanel();
-            }
             if (!loseSoundPlayed) {
                 pacPelletEatenSound.stop();
                 try {
@@ -215,20 +203,20 @@ public class Game implements Observer{
                 g.setColor(Color.YELLOW);
                 g.setStroke(new BasicStroke((float) 1.5));
                 Rectangle2D r = g.getFontMetrics().getStringBounds("READY!", g);
-                g.drawString("READY", (GamePanel.width - (int) r.getWidth())/2, (GamePanel.height - (int) r.getHeight())/2+37);
+                g.drawString("READY!", (GamePanel.width - (int) r.getWidth())/2, (GamePanel.height - (int) r.getHeight())/2+37);
             }
         } else if (lose) {
             g.setColor(Color.YELLOW);
             g.setStroke(new BasicStroke((float) 1.5));
             Rectangle2D r = g.getFontMetrics().getStringBounds("GAME OVER!", g);
-            g.drawString("GAME OVER", (GamePanel.width - (int) r.getWidth())/2, (GamePanel.height - (int) r.getHeight())/2+37);
+            g.drawString("GAME OVER!", (GamePanel.width - (int) r.getWidth())/2, (GamePanel.height - (int) r.getHeight())/2+37);
             showRestartPrompt(g);
 
         } else if (win) {
             g.setColor(Color.YELLOW);
             g.setStroke(new BasicStroke((float) 1.5));
             Rectangle2D r = g.getFontMetrics().getStringBounds("WIN!", g);
-            g.drawString("WIN", (GamePanel.width - (int) r.getWidth())/2, (GamePanel.height - (int) r.getHeight())/2+37);
+            g.drawString("WIN!", (GamePanel.width - (int) r.getWidth())/2, (GamePanel.height - (int) r.getHeight())/2+37);
             showRestartPrompt(g);
         }
 
@@ -242,33 +230,6 @@ public class Game implements Observer{
         winSound.close();
     }
 
-    private int readHighScore() {
-        try {
-            File file = new File("res/highscore.txt");
-            if (!file.exists()) {
-                return 0;
-            }
-            BufferedReader reader = new BufferedReader(new FileReader(file));
-            String line = reader.readLine();
-            reader.close();
-            return line != null ? Integer.parseInt(line.trim()) : 0;
-        } catch (IOException | NumberFormatException e) {
-            System.err.println("Failed to read highscore: " + e.getMessage());
-            return 0;
-        }
-    }
-
-    private void saveHighScore(int highScore) {
-        try {
-            File file = new File("res/highscore.txt");
-            file.getParentFile().mkdirs();
-            BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-            writer.write(String.valueOf(highScore));
-            writer.close();
-        } catch (IOException e) {
-            System.err.println("Failed to save highscore: " + e.getMessage());
-        }
-    }
 
     public void showRestartPrompt(Graphics2D g) {
         g.setColor(Color.YELLOW);
@@ -288,6 +249,7 @@ public class Game implements Observer{
         entities.clear();
         walls.clear();
         ghosts.clear();
+        loseSoundPlayed = false;
         init();
         taskbarPanel.reset();
         if (Main.getHeaderPanel() != null) {
@@ -333,10 +295,6 @@ public class Game implements Observer{
         if (Main.getHeaderPanel() != null) {
             Main.getHeaderPanel().setScore(score);
         }
-    }
-
-    public int getHighScore() {
-        return highScore;
     }
 
 
