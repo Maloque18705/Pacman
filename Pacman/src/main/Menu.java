@@ -16,7 +16,7 @@ public class Menu extends JPanel {
     private final int width;
     private final int height;
     private final JFrame frame;
-    private final String[] options = {"START", "SETTINGS", "QUIT"};
+    private final String[] options = {"START", "SETTINGS", "HOW TO PLAY", "QUIT"};
     private int selectedOption = 0;
     private BufferedImage image;
 
@@ -64,6 +64,15 @@ public class Menu extends JPanel {
                         blinkTimer.stop();
                         Main.startGame();
                     
+                    } else if (options[selectedOption].equals("HOW TO PLAY")) {
+                        JOptionPane.showMessageDialog(frame,
+                            "Hướng dẫn chơi Pacman:\n"
+                            + "- Sử dụng các phím mũi tên để di chuyển Pacman.\n"
+                            + "- Ăn hết các hạt chấm nhỏ để qua màn.\n"
+                            + "- Tránh các con ma. Nếu bị bắt, bạn sẽ mất một mạng.\n"
+                            + "- Ăn Pac-Pellet lớn để có thể ăn ngược lại ma!",
+                            "Hướng Dẫn Chơi",
+                            JOptionPane.INFORMATION_MESSAGE);
                     } else if (options[selectedOption].equals("QUIT")) {
                         blinkTimer.stop();
                         System.exit(0);

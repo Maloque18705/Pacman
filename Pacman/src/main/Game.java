@@ -253,7 +253,7 @@ public class Game implements Observer{
         init();
         taskbarPanel.reset();
         if (Main.getHeaderPanel() != null) {
-            Main.getHeaderPanel().setScore(0);
+            Main.getHeaderPanel().reset();
         }
     }
 

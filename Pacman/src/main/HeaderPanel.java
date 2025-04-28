@@ -133,6 +133,11 @@ public class HeaderPanel extends JPanel implements itf.Observer{
         repaint();
     }
 
+    public void reset() {
+        score = 0;
+        repaint();
+    }
+
     private void startHighScoreFlash() {
         isHighScoreFlashing = true;
         flashRed = true;
