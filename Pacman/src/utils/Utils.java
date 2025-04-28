@@ -22,7 +22,7 @@ public class Utils {
     return Math.sqrt(Math.pow(xB - xA, 2) + Math.pow(yB - yA,2));
    }
 
-   public double getDirection(double xA, double yA, double xB, double yB) {
+   public static double getDirection(double xA, double yA, double xB, double yB) {
     return Math.atan2((yB - yA), (xB - xA));
    }
 

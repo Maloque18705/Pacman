@@ -1,13 +1,11 @@
     package entities.ghosts;
-    import java.util.Objects;
-    import java.awt.image.BufferedImage;
-    import java.io.IOException;
-    import java.awt.Graphics2D;
-
-    import javax.imageio.ImageIO;
-
     import entities.MovingEntity;
     import entities.ghosts.ghostState.*;
+    import java.awt.Graphics2D;
+    import java.awt.image.BufferedImage;
+    import java.io.IOException;
+    import java.util.Objects;
+    import javax.imageio.ImageIO;
 import main.Game;
 
     public abstract class Ghosts extends MovingEntity {

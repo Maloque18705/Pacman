@@ -1,10 +1,9 @@
 package utils;
 
-import java.awt.Rectangle;
-
 import entities.Entity;
 import entities.GhostShed;
 import entities.Wall;
+import java.awt.Rectangle;
 import main.Game;
 
 public class CheckCollision {

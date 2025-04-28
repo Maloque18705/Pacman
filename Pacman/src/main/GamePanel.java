@@ -1,16 +1,15 @@
 package main;
+import inputs.KeyboardInputs;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
-
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
-
-import inputs.KeyboardInputs;
 public class GamePanel extends JPanel implements Runnable {
 
     public static int width;
@@ -113,4 +112,18 @@ public class GamePanel extends JPanel implements Runnable {
     public void setRunning(boolean running) {
         this.running = running;
     }
+    public static int[][] getGrid() {
+    List<List<String>> map = Main.getGame().getMap(); // Lấy map từ Game
+    int rows = map.size();
+    int cols = map.get(0).size();
+    int[][] grid = new int[rows][cols];
+
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            // Chuyển đổi ký tự trong map thành giá trị số
+            grid[i][j] = map.get(i).get(j).equals("x") ? 1 : 0; 
+        }
+    }
+    return grid;
+}
 }
