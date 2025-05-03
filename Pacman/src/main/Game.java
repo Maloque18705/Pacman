@@ -79,7 +79,7 @@ public class Game implements Observer{
         // hhScore = readHighScore();
 
         try {
-            map = ReadFile.readMap(Objects.requireNonNull(getClass().getClassLoader().getResource("./res/level/level.csv")).toURI());
+            map = ReadFile.readMap(Objects.requireNonNull(getClass().getClassLoader().getResource("res/level/level.csv")).toURI());
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
@@ -123,9 +123,9 @@ public class Game implements Observer{
         }
         entities.add(pacman);
         entities.add(blinky);
-        // entities.add(clyde);
-        // entities.add(inky);
-        // entities.add(pinky);
+        entities.add(clyde);
+        entities.add(inky);
+        entities.add(pinky);
 
         for (Entity e: entities) {
             if (e instanceof Wall) {

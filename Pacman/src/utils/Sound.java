@@ -12,11 +12,11 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 public abstract class Sound {
     private Clip clip;
     private AudioInputStream sound;
-
+    
     public Sound(String name) {
         try {
             try {
-                sound = AudioSystem.getAudioInputStream(getClass().getClassLoader().getResource("./res/sound/" + name).toURI().toURL());
+                sound = AudioSystem.getAudioInputStream(getClass().getClassLoader().getResource("res/sound/" + name).toURI().toURL());
                 clip = AudioSystem.getClip();
                 clip.open(sound);
             } catch (LineUnavailableException | URISyntaxException e) {
