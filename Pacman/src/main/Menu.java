@@ -16,7 +16,7 @@ public class Menu extends JPanel {
     private final int width;
     private final int height;
     private final JFrame frame;
-    private final String[] options = {"START", "SETTINGS", "HOW TO PLAY", "QUIT"};
+    private final String[] options = {"START", "HOW TO PLAY", "QUIT"};
     private int selectedOption = 0;
     private BufferedImage image;
 
@@ -76,10 +76,7 @@ public class Menu extends JPanel {
                     } else if (options[selectedOption].equals("QUIT")) {
                         blinkTimer.stop();
                         System.exit(0);
-                   
-                    } else if (options[selectedOption].equals("SETTINGS")) {
-                        System.out.println("SETTINGS selected");
-                    }
+                    }   
                 }
             }
         });

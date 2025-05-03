@@ -41,9 +41,9 @@ import main.Game;
 
 
         try {
-            eatenSprite = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("res/img/ghost_eaten.png")));
-            frightSprite1 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("res/img/ghost_frightened.png")));
-            frightSprite2 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("res/img/ghost_frightened_2.png")));
+            eatenSprite = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("./res/img/ghost_eaten.png")));
+            frightSprite1 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("./res/img/ghost_frightened.png")));
+            frightSprite2 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("./res/img/ghost_frightened_2.png")));
 
         } catch (IOException e) {
             throw new RuntimeException();

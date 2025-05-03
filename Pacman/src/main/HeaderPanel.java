@@ -97,7 +97,7 @@ public class HeaderPanel extends JPanel implements itf.Observer{
 
     private int readHighScore() {
         try {
-            File file = new File("res/highscore.txt");
+            File file = new File("save/highscore.txt");
             if (!file.exists()) {
                 return 0;
             }
@@ -113,7 +113,7 @@ public class HeaderPanel extends JPanel implements itf.Observer{
 
     private void saveHighScore(int highScore) {
         try {
-            File file = new File("res/highscore.txt");
+            File file = new File("save/highscore.txt");
             file.getParentFile().mkdir();
             BufferedWriter writer = new BufferedWriter(new FileWriter(file));
             writer.write(String.valueOf(highScore));

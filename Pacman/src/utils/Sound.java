@@ -16,7 +16,7 @@ public abstract class Sound {
     public Sound(String name) {
         try {
             try {
-                sound = AudioSystem.getAudioInputStream(getClass().getClassLoader().getResource("res/sound/" + name).toURI().toURL());
+                sound = AudioSystem.getAudioInputStream(getClass().getClassLoader().getResource("./res/sound/" + name).toURI().toURL());
                 clip = AudioSystem.getClip();
                 clip.open(sound);
             } catch (LineUnavailableException | URISyntaxException e) {

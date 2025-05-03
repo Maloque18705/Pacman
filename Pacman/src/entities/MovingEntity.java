@@ -31,7 +31,7 @@ public abstract class MovingEntity extends Entity{
         this.startXPos = xPos;
         this.startYPos = yPos;
         try {
-            String path = "res/img/" + spriteName;
+            String path = "./res/img/" + spriteName;
             this.sprite = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource(path)));
         } catch (IOException e) {
             throw new RuntimeException(e);
